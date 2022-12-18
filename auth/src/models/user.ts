@@ -29,6 +29,16 @@ const userSchema = new mongoose.Schema({
     type:String,
     required:true
   }
+},{
+  // here we are edditing the mongoose default return structure
+  toJSON:{
+    transform(doc,ret){
+      delete ret.password;
+      delete ret.__v;
+      ret.id = ret._id;
+      delete ret._id;
+    }
+  }
 });
 /**
  * this function hashes the password if it being modified

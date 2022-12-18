@@ -4,6 +4,7 @@ import {BadRequestError} from '../errors/bad-request-error';
 import {DatabaseConnectionError} from '../errors/database-connection-error';
 import {RequestValidationError} from '../errors/request-validation-error';
 import {buildUser, User} from '../models/user';
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
@@ -34,6 +35,19 @@ router.post('/api/users/signup',[
     password
   });
   await user.save();
+
+  // generate JWT 
+  const userJwt = jwt.sign({
+    is:user.id,
+    email
+  },process.env.JWT_KEY!);
+  
+  // store it on session object
+  req.session= {
+    jwt:userJwt
+  };
+
+
   res.status(201).send(user);
 });
 

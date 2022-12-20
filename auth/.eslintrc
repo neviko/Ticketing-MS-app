@@ -12,6 +12,8 @@
         "no-multi-spaces": ["error"],
 
         "object-curly-spacing":"error",
-        "no-multiple-empty-lines":"error"
+        "no-multiple-empty-lines":"error",
+        "@typescript-eslint/no-namespace": "off",
+        "max-len": ["error", 100]
     }
   }

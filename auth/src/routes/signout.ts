@@ -1,12 +1,12 @@
-import express from 'express';
+import express, {Request, Response} from 'express';
 
 const router = express.Router();
 
-router.post('/api/users/signout',(req,res)=>{
+router.post('/api/users/signout',(req: Request,res)=>{
 
-  // check if JWT is exist in cookie and valid
-
-  // 
+  req.session = null;
+  res.send({});
+   
   res.send('signout');
 });
 

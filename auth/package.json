@@ -5,10 +5,19 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev --poll src/index.ts",
-    "s": "ts-node-dev src/index.ts",
+    "test": "jest --watchAll --no-cache",
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix"
   },
+
+  "jest":{
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv":[
+      "./src/test/setup.ts"
+    ]
+  },
+
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -14,7 +14,7 @@ app.set('trust proxy',true); // we trust proxy because traffic will be arrived v
 app.use(json());
 app.use(cookieSession({
   signed:false, // disables encryption
-  secure: true, // must use HTTPS
+  secure: process.env.NODE_ENV !== 'test' , // return cookie only if using https protocol
 
 }));
 

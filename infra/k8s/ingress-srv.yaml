@@ -17,3 +17,11 @@ spec:
                 name: auth-srv
                 port:
                   number: 3000
+
+          - path: /?(.*) # catch all syntax
+            pathType: Prefix
+            backend:
+              service:
+                name: client-srv
+                port:
+                  number: 3000

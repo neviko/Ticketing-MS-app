@@ -1,5 +1,5 @@
 export default ()=>{
-    return (<>
+    return (<h1>
         Landing page
-    </>)
+    </h1>)
 }

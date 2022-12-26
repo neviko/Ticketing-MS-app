@@ -3,9 +3,9 @@ export default ()=>{
 
     return (
         useEmailPassword({
-            title:'Signup',
-            buttonText:'Signup',
-            postUrlRequest:'/api/users/signup'
+            title:'Sign in',
+            buttonText:'Sign in',
+            postUrlRequest:'/api/users/signin'
         })
     )
 

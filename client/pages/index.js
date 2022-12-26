@@ -1,10 +1,7 @@
 import axios from "axios"
 
 const LandingPage = ({ currentUser })=>{
-    console.log(currentUser)
-    return (<h1>
-        Landing page !!!
-    </h1>)
+    return currentUser ? <h1>You are signed in</h1> : <h1>You are NOT signed in</h1>
 }
 
 // we are not using useRequest since this function is not a component

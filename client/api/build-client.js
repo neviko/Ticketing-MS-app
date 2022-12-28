@@ -1,5 +1,5 @@
 import axios from "axios"
-export const buildClient = async ({req}) =>{
+const buildClient = async ({req}) =>{
 
     if(typeof window === 'undefined'){
         // we are on the server scenario
@@ -16,3 +16,5 @@ export const buildClient = async ({req}) =>{
 
     }
 }
+
+export default buildClient

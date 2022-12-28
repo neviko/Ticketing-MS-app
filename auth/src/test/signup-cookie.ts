@@ -15,6 +15,5 @@ export const GetSignupCookie = async ()=>{
     .expect(201);
   
   expect( response.get('Set-Cookie')).toBeDefined();
-  console.log(response.get('Set-Cookie'));
   return response.get('Set-Cookie');
 }; 

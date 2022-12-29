@@ -1,6 +1,5 @@
 import express, {Request, Response} from 'express';
-import {CurrentUser} from '../middlewares/current-user';
-import {RequireAuth} from '../middlewares/require-auth';
+import {CurrentUser, RequireAuth} from '@nevo-tickets/common';
 
 const router = express.Router();
 

@@ -1,7 +1,6 @@
 import express, {Request, Response} from 'express';
 import {body} from 'express-validator';
-import {BadRequestError} from '../errors/bad-request-error';
-import {ValidateRequest} from '../middlewares/validate-request';
+import {BadRequestError, ValidateRequest} from '@nevo-tickets/common';
 import {User} from '../models/user';
 import {Password} from '../services/password';
 import jwt from 'jsonwebtoken';

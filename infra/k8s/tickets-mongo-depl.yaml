@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tickets-mongo-depl
+spec:
+  replicas: 1
+  selector: #instructions how to find the pod
+    matchLabels:
+      app: tickets-mongo
+  template:
+    metadata:
+      labels: 
+        app: tickets-mongo #the pod name
+    spec:
+      containers: # instructions which image to run in Docker
+        - name: tickets-mongo
+          image: mongo
+--- 
+# we need a service to communicate with the DB pod which expose it outside
+apiVersion: v1
+kind: Service
+metadata: 
+  name: tickets-mongo-srv
+spec:
+  selector: 
+    app: tickets-mongo # find a pod with this label and give it access
+  ports:
+    - name: db # for logging purposes
+      protocol: TCP
+      port: 27017 
+      targetPort: 27017 # mongoDB by default work on port 27017

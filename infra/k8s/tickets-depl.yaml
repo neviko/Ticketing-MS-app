@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: tickets
-          image: nevosayag/tickets
+          image: us.gcr.io/ticketing-dev-373320/tickets
           env: # pull env variables from the Secret k8s entity "jwt-secret" namespace and JWT_KEY key 
             - name: JWT_KEY
               valueFrom:

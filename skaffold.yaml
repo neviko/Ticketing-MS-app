@@ -5,10 +5,10 @@ deploy:
     manifests:
       - ./infra/k8s/*
 build:
-  local:
-    push: false
+  googleCloudBuild:
+    projectId: ticketing-dev-373320
   artifacts:
-    - image: nevosayag/auth
+    - image: us.gcr.io/ticketing-dev-373320/auth
       context: auth
       docker:
         dockerfile: Dockerfile
@@ -17,7 +17,7 @@ build:
           - src: 'src/**/*.ts'
             dest: .
 
-    - image: nevosayag/client
+    - image: us.gcr.io/ticketing-dev-373320/client
       context: client
       docker:
         dockerfile: Dockerfile
@@ -26,7 +26,7 @@ build:
           - src: '**/*.js'
             dest: .
 
-    - image: nevosayag/tickets
+    - image: us.gcr.io/ticketing-dev-373320/tickets
       context: tickets
       docker:
         dockerfile: Dockerfile

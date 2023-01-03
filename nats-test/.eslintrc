@@ -1,0 +1,20 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "extends": ["plugin:@typescript-eslint/recommended"],
+    "parserOptions": { "ecmaVersion": 2018, "sourceType": "module" },
+    "rules": {
+        "quotes": ["error", "single"],
+        // we want to force semicolons
+        "semi": ["error", "always"],
+        // we use 2 spaces to indent our code
+        "indent": ["error", 2],
+        // we want to avoid extraneous spaces
+        "no-multi-spaces": ["error"],
+
+        "object-curly-spacing":2,
+        "no-multiple-empty-lines":"error",
+        "@typescript-eslint/no-namespace": "off",
+        "max-len": ["error", 100],
+        "newline-per-chained-call": "error",
+    }
+  }

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { natsWrapper } from '../nats-wrapper';
+import { natsWrapper } from './nats-wrapper';
 import {app} from './app';
 
 const start = async ()=>{
@@ -12,8 +12,20 @@ const start = async ()=>{
     throw new Error('MONGO_URI must be defined');
   }
 
+  if(!process.env.NATS_CLIENT_ID){
+    throw new Error('MONGO_URI must be defined');
+  }
+
+  if(!process.env.NATS_CLUSTER_ID){
+    throw new Error('MONGO_URI must be defined');
+  }
+
+  if(!process.env.NATS_URL){
+    throw new Error('MONGO_URI must be defined');
+  }
+
   try{
-    await natsWrapper.connect('ticketing','dfdfaa','http://nats-srv:4222')
+    await natsWrapper.connect(process.env.NATS_CLUSTER_ID,process.env.NATS_CLIENT_ID,process.env.NATS_URL)
 
     natsWrapper.client.on('close',()=>{
       console.log('NATS connection closed')

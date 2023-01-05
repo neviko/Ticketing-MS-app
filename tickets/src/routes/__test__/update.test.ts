@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import  Request  from "supertest";
 import { app } from "../../app";
+import { natsWrapper } from "../../nats-wrapper";
 import { GetSignupCookie } from "../../test/signup-cookie";
 
 it(' returns a 404 if the ticket id is not found', async ()=>{
@@ -120,4 +121,37 @@ it(' should create and update a ticket', async ()=>{
     expect(ticketResponse.body.title).toEqual(newTitle)
     expect(ticketResponse.body.price).toEqual(newPrice)
     expect(ticketResponse.body.id).toEqual(response.body.id)
+})
+
+it('publishes an event',async ()=>{
+
+    const cookie = GetSignupCookie()
+    const response = await Request(app).post('/api/tickets')
+    .set('Cookie', cookie)
+    .send({
+        title:'title',
+        price:20
+    })
+    .expect(201)
+
+    const newTitle = 'newTitle'
+    const newPrice = 70
+
+    await Request(app).put(`/api/tickets/${response.body.id}`)
+    .set('Cookie', cookie)
+    .send({
+        title:newTitle,
+        price:newPrice
+    })
+    .expect(200)
+
+
+    const ticketResponse = await Request(app).get(`/api/tickets/${response.body.id}`)
+    .send()
+    .expect(200)
+
+    expect(ticketResponse.body.title).toEqual(newTitle)
+    expect(ticketResponse.body.price).toEqual(newPrice)
+    expect(ticketResponse.body.id).toEqual(response.body.id)
+    expect(natsWrapper.client.publish).toHaveBeenCalled()
 })

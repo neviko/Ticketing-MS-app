@@ -2,6 +2,9 @@ import express, {Request, Response} from 'express'
 import {NotAuthorizedError, NotFoundError, RequireAuth, ValidateRequest} from '@nevo-tickets/common'
 import { body } from 'express-validator'
 import { Ticket } from '../../models/tickets'
+import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher'
+import { natsWrapper } from '../nats-wrapper'
+import mongoose from 'mongoose'
 
 const router = express.Router()
 
@@ -33,11 +36,20 @@ async (req: Request, res:Response)  =>{
         throw new NotAuthorizedError()
     }
 
+
     ticket.set({
         title,
         price
     })
     await ticket.save()
+
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+        id:ticket.id,
+        title:ticket.title,
+        price: ticket.price,
+        userId:ticket.userId
+    })
+
     res.send(ticket).status(200)
 })
 

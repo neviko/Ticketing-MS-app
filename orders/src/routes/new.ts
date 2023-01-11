@@ -48,7 +48,7 @@ async (req: Request, res:Response) =>{
     await order.save()
 
     // send an event order:created
-    res.send({order}).status(200)
+    res.send(order).status(200)
 })
 
 

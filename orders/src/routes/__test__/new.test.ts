@@ -9,7 +9,7 @@ it('return an error if the ticket does not exist', async ()=>{
 
     const ticketId = new mongoose.Types.ObjectId()// generates a new mongo valid ID
     await request(app)
-        .post('/api/order')
+        .post('/api/orders')
         .set('Cookie', GetSignupCookie())
         .send({
             ticketId

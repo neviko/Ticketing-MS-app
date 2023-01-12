@@ -4,6 +4,8 @@ import { body } from 'express-validator'
 import mongoose from 'mongoose'
 import { Ticket } from '../models/tickets'
 import { Order } from '../models/orders'
+import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher'
+import { natsWrapper } from '../nats-wrapper'
 
 const router = express.Router()
 
@@ -48,6 +50,17 @@ async (req: Request, res:Response) =>{
     await order.save()
 
     // send an event order:created
+    new OrderCreatedPublisher(natsWrapper.client).publish({
+        id:order.id,
+        status:OrderStatus.Created,
+        userId: req.currentUser!.id,
+        expiredAt:order.expiresAt.toISOString(),
+        ticket:{
+            id: ticket.id,
+            price: ticket.price
+        }
+
+    })
     res.send(order).status(200)
 })
 

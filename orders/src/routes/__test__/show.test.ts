@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import request from 'supertest' 
 import {app} from '../../app'
-import { Order, OrderStatus } from '../../models/orders'
 import { Ticket } from '../../models/tickets'
 import { GetSignupCookie } from '../../test/signup-cookie'
 
@@ -12,7 +11,6 @@ it('return an error if the order does not exist', async ()=>{
         .get(`/api/orders/${orderId}`)
         .set('Cookie', GetSignupCookie())
         .expect(404)
-
 })
 
 it('should return an order', async ()=>{
@@ -21,7 +19,6 @@ it('should return an order', async ()=>{
         price:50
     })
     await ticket.save()
-    console.log('ticket is',ticket.id)
     const user = GetSignupCookie()
 
     const {body:order} = await request(app)

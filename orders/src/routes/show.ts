@@ -8,25 +8,21 @@ const router = express.Router()
 
 router.get('/api/orders/:orderId' ,
 RequireAuth,
-async (req: Request, res:Response) =>{
-    console.log('req.params.orderId',req.params);
+async (req: Request, res:Response) =>{    
     
-    try{
-        mongoose.model('ticket', ticketSchema);
-        const order = await Order.findById(req.params.orderId).populate('ticket')
-        if(!order){
-            throw new NotFoundError()
-        }
-    
-        if(order.userId !== req.currentUser?.id){
-            throw new NotAuthorizedError()
-        }
-    
-        res.send(order)
+    mongoose.model('ticket', ticketSchema);
+    const order = await Order.findById(req.params.orderId).populate('ticket')
+    if(!order){
+        throw new NotFoundError()
     }
-    catch(err){
-        console.log(err)
+
+    if(order.userId !== req.currentUser?.id){
+        throw new NotAuthorizedError()
     }
+
+    res.send(order)
+    
+    
     
 })
 

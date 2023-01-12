@@ -3,7 +3,9 @@ import request from 'supertest'
 import {app} from '../../app'
 import { Order, OrderStatus } from '../../models/orders'
 import { Ticket } from '../../models/tickets'
+import { natsWrapper } from '../../nats-wrapper'
 import { GetSignupCookie } from '../../test/signup-cookie'
+
 
 it('return an error if the ticket does not exist', async ()=>{
 
@@ -62,4 +64,22 @@ it('reserves a ticket', async ()=>{
     .expect(200)
 })
 
-it.todo('emit an order created event')
+it('emit an order created event', async ()=>{
+
+    const ticket = Ticket.build({
+        title:'title',
+        price:50
+    })
+    await ticket.save()
+
+    console.log('ticket',ticket);
+    
+    await request(app)
+    .post('/api/orders')
+    .set('Cookie', GetSignupCookie())
+    .send({
+        ticketId:ticket.id
+    })
+    .expect(200)
+    expect(natsWrapper.client.publish).toHaveBeenCalled()
+})

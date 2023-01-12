@@ -4,6 +4,8 @@ import { body } from 'express-validator'
 import mongoose from 'mongoose'
 import { ticketSchema } from '../models/tickets'
 import { Order, OrderStatus } from '../models/orders'
+import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher'
+import { natsWrapper } from '../nats-wrapper'
 
 const router = express.Router()
 
@@ -24,8 +26,13 @@ async (req: Request, res:Response) =>{
         order.status = OrderStatus.Cancelled
         await order.save()
 
-        //TODO: publish event
-
+        // publish an event
+        new OrderCancelledPublisher(natsWrapper.client).publish({
+            id:order.id,
+            ticket:{
+                id:order.ticket.id
+            }
+        })
         res.status(200).send(order)
     }
     catch(err){

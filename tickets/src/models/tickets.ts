@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import { updateIfCurrentPlugin } from "mongoose-update-if-current"
 
 
 interface TicketsAttrs{
@@ -8,9 +9,10 @@ interface TicketsAttrs{
 }
 
 interface TicketsDoc extends mongoose.Document {
-    title:string,
-    price: number,
+    title:string
+    price: number
     userId:string
+    version:number
 }
 
 interface TicketsModel extends mongoose.Model<TicketsDoc> {
@@ -39,6 +41,9 @@ const ticketSchema = new mongoose.Schema({
         }
     }
 })
+
+ticketSchema.set('versionKey','version') // instead of __v
+ticketSchema.plugin(updateIfCurrentPlugin) // fix concurrency issues library
 
 ticketSchema.statics.build = (attrs:TicketsAttrs) =>{
     return new Ticket(attrs)

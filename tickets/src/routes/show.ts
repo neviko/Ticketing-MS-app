@@ -1,7 +1,7 @@
 import express, {Request, Response} from 'express'
 import {NotFoundError, RequireAuth, ValidateRequest} from '@nevo-tickets/common'
 import { body } from 'express-validator'
-import { Ticket } from '../../models/tickets'
+import { Ticket } from '../models/tickets'
 
 const router = express.Router()
 

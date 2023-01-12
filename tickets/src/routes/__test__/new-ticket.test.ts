@@ -1,5 +1,5 @@
 import  Request  from "supertest";
-import { Ticket } from "../../../models/tickets";
+import { Ticket } from "../../models/tickets";
 import { app } from "../../app";
 import { GetSignupCookie } from "../../test/signup-cookie";
 import { natsWrapper } from "../../nats-wrapper";

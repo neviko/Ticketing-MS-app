@@ -1,7 +1,7 @@
 import express, {Request, Response} from 'express'
 import {NotAuthorizedError, NotFoundError, RequireAuth, ValidateRequest} from '@nevo-tickets/common'
 import { body } from 'express-validator'
-import { Ticket } from '../../models/tickets'
+import { Ticket } from '../models/tickets'
 import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher'
 import { natsWrapper } from '../nats-wrapper'
 import mongoose from 'mongoose'

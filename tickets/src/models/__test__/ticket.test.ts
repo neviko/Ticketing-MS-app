@@ -23,10 +23,30 @@ it(' implement OCC (optimistic concurrency control)', async ()=>{
     // first ticket should be saved
     await firstInstance?.save()
 
-    // second ticket expect an error
+    // second ticket expect an error s
     try {
         await secondInstance!.save();
       } catch (err) {
         return;
       }
+})
+
+it('increment the version number the multiple saves',async ()=>{
+    const title = 'title'
+    const price = 50
+
+    const ticket = Ticket.build({
+        title,
+        price,
+        userId:'123'
+    })
+    await ticket.save()
+    expect(ticket.version).toEqual(0)
+
+    await ticket.save()
+    expect(ticket.version).toEqual(1)
+
+    await ticket.save()
+    expect(ticket.version).toEqual(2)
+
 })

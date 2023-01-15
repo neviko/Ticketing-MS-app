@@ -8,17 +8,24 @@ interface TicketsAttrs{
     userId:string
 }
 
+// A document is a single record in MongoDB
 interface TicketsDoc extends mongoose.Document {
     title:string
     price: number
     userId:string
     version:number
+    orderId?: string
+
 }
 
+// A model is a JavaScript object that defines the structure of a 
+// document and the methods that can be used to interact with it.
 interface TicketsModel extends mongoose.Model<TicketsDoc> {
     build(attrs:TicketsAttrs): TicketsDoc
 }
 
+// A schema is a blueprint for the structure of a document in 
+// Mongoose which is used to define the structure of a model.
 const ticketSchema = new mongoose.Schema({
     title:{
         type:String,
@@ -32,6 +39,9 @@ const ticketSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    orderId:{
+        type: String,
+    }
 },
 {
     toJSON:{

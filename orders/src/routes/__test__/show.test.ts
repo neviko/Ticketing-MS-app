@@ -15,6 +15,7 @@ it('return an error if the order does not exist', async ()=>{
 
 it('should return an order', async ()=>{
     const ticket = Ticket.build({
+        id: new mongoose.Types.ObjectId().toHexString(),
         title:'title',
         price:50
     })

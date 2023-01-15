@@ -19,6 +19,7 @@ it('return an error if trying to delete non exist order', async ()=>{
 it('should cancel an order', async ()=>{
     //creates a ticket
     const ticket = Ticket.build({
+        id: new mongoose.Types.ObjectId().toHexString(),
         title:'title',
         price:50
     })
@@ -51,6 +52,7 @@ it('should cancel an order', async ()=>{
 it('emit a order cancelled event ',async ()=>{
 
     const ticket = Ticket.build({
+        id: new mongoose.Types.ObjectId().toHexString(),
         title:'title',
         price:50
     })

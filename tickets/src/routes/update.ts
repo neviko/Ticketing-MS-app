@@ -1,5 +1,5 @@
 import express, {Request, Response} from 'express'
-import {NotAuthorizedError, NotFoundError, RequireAuth, ValidateRequest} from '@nevo-tickets/common'
+import {BadRequestError, NotAuthorizedError, NotFoundError, RequireAuth, ValidateRequest} from '@nevo-tickets/common'
 import { body } from 'express-validator'
 import { Ticket } from '../models/tickets'
 import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher'
@@ -34,6 +34,10 @@ async (req: Request, res:Response)  =>{
     }
     if(ticket.userId !== req.currentUser?.id){
         throw new NotAuthorizedError()
+    }
+
+    if(ticket.orderId){
+        throw new BadRequestError('ticket is reserved and cannot be edited')
     }
 
 

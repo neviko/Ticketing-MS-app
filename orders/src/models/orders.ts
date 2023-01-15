@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import {OrderStatus} from '@nevo-tickets/common'
 import {TicketDoc} from './tickets'
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 export { OrderStatus }
 
@@ -16,6 +17,7 @@ interface OrderDoc extends mongoose.Document{
     status: OrderStatus
     expiresAt: Date
     ticket : TicketDoc
+    version: number
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc>{
@@ -57,6 +59,9 @@ const ordersSchema = new mongoose.Schema({
         }
     }
 })
+
+ordersSchema.set('versionKey','version')
+ordersSchema.plugin(updateIfCurrentPlugin)
 
 ordersSchema.statics.build = (attrs: OrderAttrs)=>{
     return new Order(attrs)

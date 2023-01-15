@@ -55,7 +55,7 @@ async (req: Request, res:Response) =>{
         status:OrderStatus.Created,
         userId: req.currentUser!.id,
         expiredAt:order.expiresAt.toISOString(),
-        version:ticket.version,
+        version:order.version,
         ticket:{
             id: ticket.id,
             price: ticket.price

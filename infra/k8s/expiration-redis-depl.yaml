@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: expiration-redis-depl
+spec:
+  replicas: 1
+  selector: #instructions how to find the pod
+    matchLabels:
+      app: expiration-redis
+  template:
+    metadata:
+      labels: 
+        app: expiration-redis #the pod name
+    spec:
+      containers: # instructions which image to run in Docker
+        - name: expiration-redis
+          image: redis
+--- 
+# we need a service to communicate with the DB pod which expose it outside
+apiVersion: v1
+kind: Service
+metadata: 
+  name: expiration-redis-srv
+spec:
+  selector: 
+    app: expiration-redis # find a pod with this label and give it access
+  ports:
+    - name: db # for logging purposes
+      protocol: TCP
+      port: 6379 
+      targetPort: 6379 # mongoDB by default work on port 27017
